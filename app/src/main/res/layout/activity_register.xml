@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="40dp">
+                android:paddingBottom="30dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -40,7 +40,9 @@
                     android:textAlignment="center"
                     android:textColor="@color/mustard"
                     android:textSize="50sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/open_sauce_one_extrabold"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -48,7 +50,9 @@
                     android:text="safe space to pour out your emotions and reflect on your mental health journey."
                     android:textAlignment="center"
                     android:textColor="@color/mustard"
-                    android:textSize="18sp" />
+                    android:textSize="16sp"
+                    android:fontFamily="@font/open_sauce_one_regular"
+                    />
             </LinearLayout>
 
             <TextView
@@ -57,11 +61,13 @@
                 android:layout_marginBottom="6dp"
                 android:text="First Name"
                 android:textColor="@color/mustard"
-                android:textSize="18dp"
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:textSize="16dp"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/fName"
                 android:layout_width="match_parent"
@@ -72,7 +78,9 @@
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -84,7 +92,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/lName"
                 android:layout_width="match_parent"
@@ -95,7 +105,9 @@
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -107,7 +119,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <TextView
                 android:id="@+id/pickDateButton"
                 android:layout_width="match_parent"
@@ -118,7 +132,9 @@
                 android:textColor="@android:color/black"
                 android:background="@drawable/date_bg"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,7 +146,10 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <Spinner
                 android:id="@+id/gender_spinner"
                 android:layout_width="match_parent"
@@ -140,6 +159,7 @@
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
                 android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
                 />
 
             <TextView
@@ -152,7 +172,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -163,7 +185,9 @@
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -175,7 +199,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
@@ -186,7 +212,9 @@
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -198,7 +226,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -209,7 +239,9 @@
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -221,7 +253,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="1.5"
                 android:shadowDy="1.5"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
             <EditText
                 android:id="@+id/confirmPass"
                 android:layout_width="match_parent"
@@ -232,7 +266,9 @@
                 android:inputType="textPassword"
                 android:padding="12dp"
                 android:textColor="@color/darker_mustard"
-                android:textColorHint="@color/darker_mustard" />
+                android:textColorHint="@color/darker_mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <Button
                 android:id="@+id/registerBtn"
@@ -241,7 +277,9 @@
                 android:backgroundTint="@color/yellow"
                 android:padding="10dp"
                 android:text="REGISTER"
-                android:textSize="21dp" />
+                android:textSize="21dp"
+                android:fontFamily="@font/open_sauce_one_regular"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,14 +291,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
                     android:text="Already have an account?"
                     android:textColor="@color/mustard"
                     android:textSize="18sp"
                     android:shadowColor="#80000000"
                     android:shadowDx="2"
                     android:shadowDy="2"
-                    android:shadowRadius="1.5" />
+                    android:shadowRadius="1.5"
+                    android:fontFamily="@font/open_sauce_one_light"/>
                 <Button
                     android:id="@+id/signInBtn"
                     android:layout_width="match_parent"
@@ -270,7 +308,6 @@
                     android:backgroundTint="@android:color/transparent"
                     android:clickable="true"
                     android:focusable="true"
-                    android:fontFamily="sans-serif-light"
                     android:minWidth="0dp"
                     android:minHeight="0dp"
                     android:paddingVertical="0dp"
@@ -281,7 +318,8 @@
                     android:shadowColor="#80000000"
                     android:shadowDx="2"
                     android:shadowDy="2"
-                    android:shadowRadius="1.5" />
+                    android:shadowRadius="1.5"
+                    android:fontFamily="@font/open_sauce_one_light"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -57,8 +57,13 @@ public class LoginActivity extends AppCompatActivity {
         String username = usernameET.getText().toString().trim();
         String password = passwordET.getText().toString().trim();
 
-        if (username.isEmpty() || password.isEmpty()) {
+        if(username.isEmpty()){
             Toast.makeText(c, "Please fill all fields.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(password.isEmpty()){
+            Toast.makeText(c, "Please enter your password.", Toast.LENGTH_LONG).show();
             return;
         }
 

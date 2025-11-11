@@ -36,15 +36,17 @@
                 android:letterSpacing="0.2"
                 android:textAlignment="center"
                 android:textColor="@color/mustard"
+                android:fontFamily="@font/open_sauce_one_extrabold"
                 />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="safe space to pour out your emotions and reflect on your mental health journey."
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 android:textColor="@color/mustard"
+                android:fontFamily="@font/open_sauce_one_regular"
                 />
         </LinearLayout>
 
@@ -59,6 +61,7 @@
             android:textColorHint="@color/darker_mustard"
             android:inputType="text"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/open_sauce_one_regular"
             />
 
         <EditText
@@ -72,6 +75,7 @@
             android:background="@drawable/edit_text_bg"
             android:inputType="textPassword"
             android:layout_marginBottom="20dp"
+            android:fontFamily="@font/open_sauce_one_regular"
             />
 
         <Button
@@ -82,6 +86,7 @@
             android:textSize="21dp"
             android:padding="10dp"
             android:backgroundTint="@color/yellow"
+            android:fontFamily="@font/open_sauce_one_regular"
             />
 
         <LinearLayout
@@ -95,12 +100,13 @@
                 android:layout_height="wrap_content"
                 android:text="Don't have an account yet?"
                 android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
                 android:textColor="@color/mustard"
                 android:shadowColor="#80000000"
                 android:shadowDx="2"
                 android:shadowDy="2"
-                android:shadowRadius="1.5" />
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_light"
+                />
             <!--            <TextView-->
             <!--                android:layout_width="wrap_content"-->
             <!--                android:layout_height="wrap_content"-->
@@ -118,7 +124,6 @@
                 android:backgroundTint="@android:color/transparent"
                 android:textColor="@color/mustard"
                 android:textSize="18sp"
-                android:fontFamily="sans-serif-light"
                 android:paddingVertical="0dp"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
@@ -128,9 +133,9 @@
                 android:shadowColor="#80000000"
                 android:shadowDx="2"
                 android:shadowDy="2"
-                android:shadowRadius="1.5" /><!-- optional small gap -->
-
-
+                android:shadowRadius="1.5"
+                android:fontFamily="@font/open_sauce_one_light"
+                />
         </LinearLayout>
     </LinearLayout>
 
