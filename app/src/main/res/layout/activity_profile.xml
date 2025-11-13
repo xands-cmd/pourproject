@@ -24,23 +24,28 @@
                 android:layout_height="wrap_content"
                 android:text="About You"
                 android:textAlignment="center"
-                android:textSize="18dp"
+                android:textSize="22sp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/mustard"
-                android:fontFamily="@font/open_sauce_one_medium"
+                android:fontFamily="@font/open_sauce_one_extrabold"
                 />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/default_profile"
-                android:contentDescription="Default profile img"/>
+                app:strokeColor="#898C24"
+                app:strokeWidth="6dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                app:shapeAppearanceOverlay="@style/CircularImage" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
                 >
-
             </LinearLayout>
 
             <LinearLayout
@@ -52,7 +57,7 @@
                     android:layout_height="match_parent"
                     android:text="Username"
                     android:textColor="@color/mustard"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:shadowColor="#80000000"
                     android:shadowDx="1"
                     android:shadowDy="1"
@@ -76,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="First Name"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/mustard"
                     android:shadowColor="#80000000"
                     android:shadowDx="1"
@@ -103,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Last Name"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="@color/mustard"
                     android:shadowColor="#80000000"
                     android:shadowDx="1"
@@ -210,16 +215,78 @@
                     android:fontFamily="@font/open_sauce_one_regular"
                     />
                 <Button
+                    android:id="@+id/changePicBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change Profile Picture"
+                    android:textSize="18dp"
+                    android:padding="10dp"
+                    android:backgroundTint="@color/yellow"
+                    android:fontFamily="@font/open_sauce_one_regular"
+                    />
+                <Button
                     android:id="@+id/redirectBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Go to Profile Tester"
-                    android:textSize="18dp"
-                    android:padding="10dp"
-                    android:backgroundTint="@color/yellow"
-                    android:layout_marginBottom="64dp"
-                    android:fontFamily="@font/open_sauce_one_regular"
-                    />
+                    android:textSize="18sp"
+                    android:textColor="@color/mustard"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/open_sauce_one_light"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="0dp"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
+                    android:layout_marginBottom="4dp"/>
+                    <!-- Add Change Profile Photo-->
+                    <!-- Ian-->
+                <Button
+                    android:id="@+id/testerBtn1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Go to ... Tester"
+                    android:textSize="18sp"
+                    android:textColor="@color/mustard"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/open_sauce_one_light"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="0dp"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
+                    android:layout_marginBottom="4dp"/>
+                    <!-- Kylee-->
+                <Button
+                    android:id="@+id/testerBtn2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Go to ... Tester"
+                    android:textSize="18sp"
+                    android:textColor="@color/mustard"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/open_sauce_one_light"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="0dp"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
+                    android:layout_marginBottom="64dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

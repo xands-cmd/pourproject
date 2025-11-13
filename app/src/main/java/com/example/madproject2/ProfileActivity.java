@@ -3,10 +3,13 @@ package com.example.madproject2;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -29,6 +33,11 @@ public class ProfileActivity extends AppCompatActivity {
     private int year, month, day;
     private String username = "", selectedDOB = "";
     private Button saveBtn, registerBtn, redirectBtn;
+    private Button testerBtn1, testerBtn2, changePicBtn;
+    //private ImageView profileImg;
+    ShapeableImageView profileImage;
+    final int REQUEST_CODE  = 1;
+    final int REQUEST_CODE_CAM  = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,13 @@ public class ProfileActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.registerBtn);
         saveBtn = findViewById(R.id.saveBtn);
         redirectBtn = findViewById(R.id.redirectBtn);
+        //profileImg = findViewById(R.id.profileImg);
+        profileImage = findViewById(R.id.profileImage);
+
+        //tester buttons
+        testerBtn1 = findViewById(R.id.testerBtn1);
+        testerBtn2 = findViewById(R.id.testerBtn2);
+        changePicBtn = findViewById(R.id.changePicBtn);
 
         final Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -100,6 +116,29 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent1 = new Intent(c, ProfileTester.class);
             intent1.putExtra("username", username);
             startActivity(intent1);
+        });
+
+        //Ian
+        testerBtn1.setOnClickListener(v -> {
+            Intent intent1 = new Intent(c, ProfileTester.class);
+            //intent1.putExtra("username", username);
+            startActivity(intent1);
+        });
+
+        //Kylee
+        testerBtn2.setOnClickListener(v -> {
+            Intent intent1 = new Intent(c, ProfileTester.class);
+            //intent1.putExtra("username", username);
+            startActivity(intent1);
+        });
+
+        //profile pic
+        changePicBtn.setOnClickListener(v -> {
+            Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cam, REQUEST_CODE_CAM);
+
+            //intent1.putExtra("username", username);
+            //startActivity(intent1);
         });
 
     }
@@ -210,6 +249,19 @@ public class ProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    //
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE_CAM && resultCode==RESULT_OK ){
+            Bundle extras = data.getExtras();
+            Bitmap imgBit = (Bitmap) extras.get("data");
+            //imgBit.setImageBitmap(imgBit);
+            //profileImg.setImageBitmap(imgBit);
+            profileImage.setImageBitmap(imgBit);
+        }
+
     }
 
 }//class
