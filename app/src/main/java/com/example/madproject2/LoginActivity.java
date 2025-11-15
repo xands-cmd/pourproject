@@ -73,14 +73,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (UserDatabase.validateLogin(username, password)) {
-            HashMap<String, String> userData = UserDatabase.getUser(username);
+            HashMap<String, Object> userData = UserDatabase.getUser(username);
             Intent intent = new Intent(c, ProfileActivity.class);
             intent.putExtra("username", username);
-            intent.putExtra("fName", userData.get("firstName"));
-            intent.putExtra("lName", userData.get("lastName"));
-            intent.putExtra("email", userData.get("email"));
-            intent.putExtra("gender", userData.get("gender"));
-            intent.putExtra("dob", userData.get("dob"));
+            intent.putExtra("fName", (String) userData.get("firstName"));
+            intent.putExtra("lName", (String) userData.get("lastName"));
+            intent.putExtra("email", (String) userData.get("email"));
+            intent.putExtra("gender", (String) userData.get("gender"));
+            intent.putExtra("dob", (String) userData.get("dob"));
             startActivity(intent);
 
             Toast.makeText(c, "Welcome back, " + username + "!", Toast.LENGTH_SHORT).show();

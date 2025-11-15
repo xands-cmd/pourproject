@@ -3,6 +3,8 @@ package com.example.madproject2;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -209,7 +211,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
          */
 
-        HashMap<String, String> userData = new HashMap<>();
+        HashMap<String, Object> userData = new HashMap<>();
         userData.put("firstName", fName);
         userData.put("lastName", lName);
         userData.put("email", email);
@@ -218,6 +220,8 @@ public class RegisterActivity extends AppCompatActivity {
         userData.put("gender", selectedGender);
         userData.put("dob", selectedDOB);
 
+        Bitmap defaultImg = BitmapFactory.decodeResource(getResources(), R.drawable.default_profile);
+        userData.put("profileImage", defaultImg);
         UserDatabase.registerUser(username, userData);
 
         Toast.makeText(c, "Registration successful!", Toast.LENGTH_SHORT).show();

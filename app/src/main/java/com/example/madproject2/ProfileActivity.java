@@ -33,7 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
     private int year, month, day;
     private String username = "", selectedDOB = "";
     private Button saveBtn, registerBtn, redirectBtn;
-    private Button testerBtn1, testerBtn2, changePicBtn;
+    private Button testerBtn1, testerBtn2;
+    private TextView changePicBtn;
     //private ImageView profileImg;
     ShapeableImageView profileImage;
     final int REQUEST_CODE  = 1;
@@ -219,7 +220,7 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        HashMap<String, String> userData = UserDatabase.getUser(username);
+        HashMap<String, Object> userData = UserDatabase.getUser(username);
         userData.put("firstName", fName);
         userData.put("lastName", lName);
         userData.put("dob", dob);
@@ -260,6 +261,10 @@ public class ProfileActivity extends AppCompatActivity {
             //imgBit.setImageBitmap(imgBit);
             //profileImg.setImageBitmap(imgBit);
             profileImage.setImageBitmap(imgBit);
+
+            HashMap<String, Object> userData = UserDatabase.getUser(username);
+            userData.put("profileImage", imgBit);
+            Toast.makeText(this, "Profile picture updated successfully!", Toast.LENGTH_SHORT).show();
         }
 
     }

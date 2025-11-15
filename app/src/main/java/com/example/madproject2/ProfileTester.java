@@ -1,8 +1,10 @@
 package com.example.madproject2;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -11,11 +13,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.HashMap;
 
 public class ProfileTester extends AppCompatActivity {
 
     EditText usernameET, fNameET, lNameET, bioET;
+    ShapeableImageView testerProfileImage; //ImageView
     String username = "";
 
     @Override
@@ -36,18 +41,28 @@ public class ProfileTester extends AppCompatActivity {
         fNameET = findViewById(R.id.fName);
         lNameET = findViewById(R.id.lName);
         bioET = findViewById(R.id.bio);
+        testerProfileImage = findViewById(R.id.testerProfileImage);
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
         if (username != null) {
-            HashMap<String, String> userData = UserDatabase.getUser(username);
+            HashMap<String, Object> userData = UserDatabase.getUser(username);
 
             if (userData != null) {
                 usernameET.setText(username);
-                fNameET.setText(userData.get("firstName"));
-                lNameET.setText(userData.get("lastName"));
-                bioET.setText(userData.get("bio"));
+                //fNameET.setText(userData.get("firstName"));
+                //lNameET.setText(userData.get("lastName"));
+                //bioET.setText(userData.get("bio"));
+
+                fNameET.setText((String) userData.get("firstName"));
+                lNameET.setText((String) userData.get("lastName"));
+                bioET.setText((String) userData.get("bio"));
+
+                Bitmap savedImage = (Bitmap) userData.get("profileImage");
+                if (savedImage != null) {
+                    testerProfileImage.setImageBitmap(savedImage);
+                }
             } else {
                 Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             }
