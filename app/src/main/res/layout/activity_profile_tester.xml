@@ -27,11 +27,17 @@
                 android:textSize="18dp"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/mustard"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/testerProfileImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/default_profile"
-                android:contentDescription="Default profile img"/>
+                app:strokeColor="#898C24"
+                app:strokeWidth="6dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                app:shapeAppearanceOverlay="@style/CircularImage" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -187,7 +193,27 @@
                     android:padding="34dp"
                     android:textColor="@color/darker_mustard"
                     android:textColorHint="@color/darker_mustard" />
-
+                <Button
+                    android:id="@+id/signInBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="@font/open_sauce_one_light"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="0dp"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="1.5"
+                    android:text="Sign In"
+                    android:textColor="@color/mustard"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

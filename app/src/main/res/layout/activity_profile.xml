@@ -197,12 +197,38 @@
                     android:id="@+id/bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/edit_text_bg"
                     android:inputType="text"
                     android:padding="34dp"
                     android:textColor="@color/darker_mustard"
                     android:textColorHint="@color/darker_mustard"
+                    android:fontFamily="@font/open_sauce_one_regular"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Profile Picture"
+                    android:textSize="14dp"
+                    android:textColor="@color/mustard"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1.5"
+                    android:layout_marginBottom="6dp"
+                    android:fontFamily="@font/open_sauce_one_regular"/>
+                <TextView
+                    android:id="@+id/changePicBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change Profile Picture"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/edit_text_bg"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:fontFamily="@font/open_sauce_one_regular"/>
                 <Button
                     android:id="@+id/saveBtn"
@@ -214,16 +240,17 @@
                     android:backgroundTint="@color/yellow"
                     android:fontFamily="@font/open_sauce_one_regular"
                     />
-                <Button
-                    android:id="@+id/changePicBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Change Profile Picture"
-                    android:textSize="18dp"
-                    android:padding="10dp"
-                    android:backgroundTint="@color/yellow"
-                    android:fontFamily="@font/open_sauce_one_regular"
-                    />
+<!--                <Button-->
+<!--                    android:id="@+id/changePicBtn"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Change Profile Picture"-->
+<!--                    android:textSize="18dp"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:backgroundTint="@color/yellow"-->
+<!--                    android:fontFamily="@font/open_sauce_one_regular"-->
+<!--                    />-->
+
                 <Button
                     android:id="@+id/redirectBtn"
                     android:layout_width="match_parent"
