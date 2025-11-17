@@ -22,6 +22,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Calendar;
 import java.util.HashMap;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -31,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView usernameTV, pickDateButton;
     private Spinner genderSpinner;
     private int year, month, day;
-    private String username = "", selectedDOB = "";
+    private String selectedDOB = "";
     private Button saveBtn, registerBtn, redirectBtn;
     private Button testerBtn1, testerBtn2;
     private TextView changePicBtn;
@@ -40,6 +42,8 @@ public class ProfileActivity extends AppCompatActivity {
     Bitmap tempProfileImage = null;
     final int REQUEST_CODE  = 1;
     final int REQUEST_CODE_CAM  = 2;
+    HashMap<String, Object> userData;
+    String username, fName, lName, gender, dob, bio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +85,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-        String fName = intent.getStringExtra("fName");
-        String lName = intent.getStringExtra("lName");
-        String dob = intent.getStringExtra("dob");
-        String gender = intent.getStringExtra("gender");
-        String bio = intent.getStringExtra("bio");
+        userData = UserDatabase.getUser(username);
+//        String fName = (String) userData.get("firstName");
+//        String lName = (String) userData.get("lastName");
+//        String dob = (String) userData.get("dob");
+//        String gender = (String) userData.get("gender");
+//        String bio = (String) userData.get("bio");
+
+        lName = (String) userData.get("username");
+        fName = (String) userData.get("firstName");
+        lName = (String) userData.get("lastName");
+        gender = (String) userData.get("gender");
+        dob = (String) userData.get("dob");
+
+        Toast.makeText(c, "Hello, " + fName + "!", Toast.LENGTH_SHORT).show();
+        //fName = intent.getStringExtra("fName");
+        //lName = intent.getStringExtra("lName");
+//        String dob = intent.getStringExtra("dob");
+//        String gender = intent.getStringExtra("gender");
+//        String bio = intent.getStringExtra("bio");
 
         if (username != null) usernameTV.setText(username);
         if (fName != null) fNameET.setText(fName);
@@ -120,16 +138,16 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent1);
         });
 
-        //Ian
+        //Kylee
         testerBtn1.setOnClickListener(v -> {
-            Intent intent1 = new Intent(c, ProfileTester.class);
+            Intent intent1 = new Intent(c, HomeActivity.class);
             //intent1.putExtra("username", username);
             startActivity(intent1);
         });
 
-        //Kylee
+        //Ian
         testerBtn2.setOnClickListener(v -> {
-            Intent intent1 = new Intent(c, ProfileTester.class);
+            Intent intent1 = new Intent(c, journalLists.class);
             //intent1.putExtra("username", username);
             startActivity(intent1);
         });
@@ -143,6 +161,32 @@ public class ProfileActivity extends AppCompatActivity {
             //startActivity(intent1);
         });
 
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                return true;
+            } else if (id == R.id.nav_journal) {
+                startActivity(new Intent(ProfileActivity.this, journalLists.class));
+                return true;
+            } else if (id == R.id.nav_mood) {
+                startActivity(new Intent(ProfileActivity.this, moodList.class));
+                return true;
+            } else if (id == R.id.nav_lifestyle) {
+                startActivity(new Intent(ProfileActivity.this, lifeLatelyList.class));
+                return true;
+            } else if (id == R.id.nav_profile) {
+                Intent profileIntent = new Intent(ProfileActivity.this, HomeActivity.class);
+                //intent.putExtra("username", username);
+                intent.putExtra("fName", fName);
+                intent.putExtra("lName", lName);
+                startActivity(profileIntent);
+                //startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+                return true;
+            }
+            return false;
+        });
     }
 
     private void showDatePickerDialog() {
@@ -229,7 +273,7 @@ public class ProfileActivity extends AppCompatActivity {
         userData.put("bio", bio);
 
         if (tempProfileImage != null) {
-            userData    .put("profileImage", tempProfileImage);
+            userData.put("profileImage", tempProfileImage);
         }
 
         Toast.makeText(c, "Profile updated successfully", Toast.LENGTH_SHORT).show();

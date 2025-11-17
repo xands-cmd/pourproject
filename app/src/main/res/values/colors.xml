@@ -8,4 +8,12 @@
     <color name="mustard">#C4BA5E</color>
     <color name="darker_mustard">#b7ad58</color>
     <color name="tempBG">#ffe4e4</color>
+
+<!--    <color name="yellow">#e8ca45</color>-->
+    <color name="blue">#478FE4</color>
+    <color name="orange">#ff914d</color>
+    <color name="green">#5dc888</color>
+    <color name="red">#e14a5c</color>
+    <color name="purple">#7b56c4</color>
+    <color name="pink">#eba0ba</color>
 </resources>

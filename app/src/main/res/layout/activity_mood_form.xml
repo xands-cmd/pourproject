@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".moodForm"
+    android:background="@drawable/gradient">
+
+    <ImageView
+        android:id="@+id/returnForm"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/back_arrow"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/mainMood"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/scared"/>
+        <TextView
+            android:id="@+id/moodText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I'm feeling scared..."
+            android:textColor="@color/purple"
+            android:gravity="center"
+            android:layout_marginBottom="10dp"
+            android:textSize="30dp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/happy"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/happy"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="60dp"/>
+            <ImageView
+                android:id="@+id/sad"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/sad"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/dizzy"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/dizzy"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="40dp"/>
+            <ImageView
+                android:id="@+id/drool"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/drool"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="40dp"/>
+            <ImageView
+                android:id="@+id/angry"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/angry"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/scared"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/scared"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="60dp"/>
+            <ImageView
+                android:id="@+id/kiss"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@drawable/kiss"/>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/submitMood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#C4BA5E"
+            android:text="CHOOSE MOOD"
+            android:textSize="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/button"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

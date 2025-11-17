@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@drawable/gradient_bg"
     tools:context=".ProfileActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,6 +240,7 @@
                     android:text="Apply Changes"
                     android:textSize="18dp"
                     android:padding="10dp"
+                    android:background="@drawable/button"
                     android:backgroundTint="@color/yellow"
                     android:fontFamily="@font/open_sauce_one_regular"
                     />
@@ -277,7 +281,7 @@
                     android:id="@+id/testerBtn1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Go to ... Tester"
+                    android:text="Go to Home Tester"
                     android:textSize="18sp"
                     android:textColor="@color/mustard"
                     android:background="@android:color/transparent"
@@ -296,9 +300,10 @@
                     <!-- Kylee-->
                 <Button
                     android:id="@+id/testerBtn2"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Go to ... Tester"
+                    android:text="Go to Choose Mood Tester"
                     android:textSize="18sp"
                     android:textColor="@color/mustard"
                     android:background="@android:color/transparent"
@@ -317,5 +322,15 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_profile"
+        android:background="#6C6E1F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

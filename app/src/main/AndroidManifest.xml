@@ -20,15 +20,49 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!--Ian-->
+        <activity
+            android:name=".choosemood"
+            android:exported="false" />
+        <activity
+            android:name=".individualJournal"
+            android:exported="false" />
+        <activity
+            android:name=".journalform"
+            android:exported="false" />
+        <activity
+            android:name=".journalLists"
+            android:exported="false" />
+        <activity
+            android:name=".lifelatelyForm"
+            android:exported="false" />
+        <activity
+            android:name=".lifeLatelyList"
+            android:exported="false" />
+        <activity
+            android:name=".moodList"
+            android:exported="false" />
+        <activity
+            android:name=".moodForm"
+            android:exported="false" />
+
+        <!--Kylee-->
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MoodPickerActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".LoginActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity
             android:name=".LoginActivity"
             android:exported="true">

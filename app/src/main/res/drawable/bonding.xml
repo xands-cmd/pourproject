@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bondingf" android:state_checked="false"/>
+    <item android:drawable="@drawable/bondingt" android:state_checked="true"/>
+
+</selector>
