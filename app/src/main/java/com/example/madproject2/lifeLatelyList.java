@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class lifeLatelyList extends AppCompatActivity {
 
@@ -36,6 +38,8 @@ public class lifeLatelyList extends AppCompatActivity {
     int small = 30;
 
     ActivityResultLauncher<Intent> lifeFormLauncher;
+    HashMap<String, Object> userData;
+    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,11 @@ public class lifeLatelyList extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        userData = UserDatabase.getUser(username);
+        //Toast.makeText(this, "Test:" + username, Toast.LENGTH_SHORT).show();
 
         lifeFormLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -68,19 +77,33 @@ public class lifeLatelyList extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                startActivity(new Intent(lifeLatelyList.this, HomeActivity.class));
+                //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                Intent homeIntent = new Intent(lifeLatelyList.this, HomeActivity.class);
+                homeIntent.putExtra("username", username);
+                startActivity(homeIntent);
                 return true;
             } else if (id == R.id.nav_journal) {
-                startActivity(new Intent(lifeLatelyList.this, journalLists.class));
+                //startActivity(new Intent(HomeActivity.this, journalLists.class));
+                Intent journalIntent = new Intent(lifeLatelyList.this, journalLists.class);
+                journalIntent.putExtra("username", username);
+                startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
-                startActivity(new Intent(lifeLatelyList.this, moodList.class));
+                //startActivity(new Intent(HomeActivity.this, moodList.class));
+                Intent moodIntent = new Intent(lifeLatelyList.this, moodList.class);
+                moodIntent.putExtra("username", username);
+                startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                //startActivity(new Intent(lifeLatelyList.this, lifeLatelyList.class));
+                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
+                //Intent lifestyleIntent = new Intent(lifeLatelyList.this, lifeLatelyList.class);
+                //lifestyleIntent.putExtra("username", username);
+                //startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(lifeLatelyList.this, ProfileActivity.class));
+                Intent profileIntent = new Intent(lifeLatelyList.this, ProfileActivity.class);
+                profileIntent.putExtra("username", username);
+                startActivity(profileIntent);
                 return true;
             }
             return false;

@@ -165,23 +165,32 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                //startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                Intent homeIntent = new Intent(ProfileActivity.this, HomeActivity.class);
+                homeIntent.putExtra("username", username);
+                startActivity(homeIntent);
                 return true;
             } else if (id == R.id.nav_journal) {
                 startActivity(new Intent(ProfileActivity.this, journalLists.class));
+                Intent journalIntent = new Intent(ProfileActivity.this, journalLists.class);
+                journalIntent.putExtra("username", username);
+                startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
                 startActivity(new Intent(ProfileActivity.this, moodList.class));
+                Intent moodIntent = new Intent(ProfileActivity.this, moodList.class);
+                moodIntent.putExtra("username", username);
+                startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                startActivity(new Intent(ProfileActivity.this, lifeLatelyList.class));
+                //startActivity(new Intent(ProfileActivity.this, lifeLatelyList.class));
+                Intent lifestyleIntent = new Intent(ProfileActivity.this, lifeLatelyList.class);
+                lifestyleIntent.putExtra("username", username);
+                startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
-                Intent profileIntent = new Intent(ProfileActivity.this, HomeActivity.class);
-                //intent.putExtra("username", username);
-                intent.putExtra("fName", fName);
-                intent.putExtra("lName", lName);
-                startActivity(profileIntent);
+                //Intent profileIntent = new Intent(ProfileActivity.this, HomeActivity.class);
+                //startActivity(profileIntent);
                 //startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
                 return true;
             }

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -24,6 +25,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.HashMap;
 
 public class journalLists extends AppCompatActivity {
 
@@ -43,6 +46,8 @@ public class journalLists extends AppCompatActivity {
     int journalCounter = 1;
 
     ActivityResultLauncher<Intent> journalFormLauncher;
+    HashMap<String, Object> userData;
+    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,11 @@ public class journalLists extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        userData = UserDatabase.getUser(username);
+        //Toast.makeText(this, "Test:" + username, Toast.LENGTH_SHORT).show();
 
         journalEntries = findViewById(R.id.journalEntries);
         addJournal = findViewById(R.id.addJournal);
@@ -134,19 +144,33 @@ public class journalLists extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                startActivity(new Intent(journalLists.this, HomeActivity.class));
+                //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                Intent homeIntent = new Intent(journalLists.this, HomeActivity.class);
+                homeIntent.putExtra("username", username);
+                startActivity(homeIntent);
                 return true;
             } else if (id == R.id.nav_journal) {
-                //startActivity(new Intent(journalLists.this, journalLists.class));
+                //startActivity(new Intent(HomeActivity.this, journalLists.class));
+                //Intent journalIntent = new Intent(journalLists.this, journalLists.class);
+                //journalIntent.putExtra("username", username);
+                //startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
-                startActivity(new Intent(journalLists.this, moodList.class));
+                //startActivity(new Intent(HomeActivity.this, moodList.class));
+                Intent moodIntent = new Intent(journalLists.this, moodList.class);
+                moodIntent.putExtra("username", username);
+                startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                startActivity(new Intent(journalLists.this, lifeLatelyList.class));
+                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
+                Intent lifestyleIntent = new Intent(journalLists.this, lifeLatelyList.class);
+                lifestyleIntent.putExtra("username", username);
+                startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(journalLists.this, ProfileActivity.class));
+                Intent profileIntent = new Intent(journalLists.this, ProfileActivity.class);
+                profileIntent.putExtra("username", username);
+                startActivity(profileIntent);
                 return true;
             }
             return false;

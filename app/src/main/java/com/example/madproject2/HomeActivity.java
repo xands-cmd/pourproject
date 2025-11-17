@@ -41,7 +41,6 @@ public class HomeActivity extends AppCompatActivity {
     private void initialize() {
         tvFullName = findViewById(R.id.tvFullName);
 
-        //set Full Name
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         userData = UserDatabase.getUser(username);
@@ -51,8 +50,9 @@ public class HomeActivity extends AppCompatActivity {
 
         //fName = intent.getStringExtra("fName");
         //lName = intent.getStringExtra("lName");
+        //set Full Name
         String fullName = fName + " " + lName;
-        Toast.makeText(HomeActivity.this, "Welcome back, " + fullName + "!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(HomeActivity.this, "Welcome back, " + fullName + "!", Toast.LENGTH_SHORT).show();
 
         tvFullName.setText(fullName);
 
@@ -82,19 +82,26 @@ public class HomeActivity extends AppCompatActivity {
                 //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
                 return true;
             } else if (id == R.id.nav_journal) {
-                startActivity(new Intent(HomeActivity.this, journalLists.class));
+                //startActivity(new Intent(HomeActivity.this, journalLists.class));
+                Intent journalIntent = new Intent(HomeActivity.this, journalLists.class);
+                journalIntent.putExtra("username", username);
+                startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
-                startActivity(new Intent(HomeActivity.this, moodList.class));
+                //startActivity(new Intent(HomeActivity.this, moodList.class));
+                Intent moodIntent = new Intent(HomeActivity.this, moodList.class);
+                moodIntent.putExtra("username", username);
+                startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
+                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
+                Intent lifestyleIntent = new Intent(HomeActivity.this, lifeLatelyList.class);
+                lifestyleIntent.putExtra("username", username);
+                startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
                 Intent profileIntent = new Intent(HomeActivity.this, ProfileActivity.class);
                 profileIntent.putExtra("username", username);
-                //intent.putExtra("fName", fName);
-                //intent.putExtra("lName", lName);
                 startActivity(profileIntent);
                 return true;
             }

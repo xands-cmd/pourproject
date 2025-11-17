@@ -31,6 +31,7 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 public class moodList extends AppCompatActivity {
 
@@ -40,6 +41,8 @@ public class moodList extends AppCompatActivity {
     LinearLayout iconLayout;
 
     ActivityResultLauncher<Intent> moodFormLauncher;
+    HashMap<String, Object> userData;
+    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,10 @@ public class moodList extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        userData = UserDatabase.getUser(username);
 
         moodFormLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -78,19 +85,33 @@ public class moodList extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                startActivity(new Intent(moodList.this, HomeActivity.class));
+                //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                Intent homeIntent = new Intent(moodList.this, HomeActivity.class);
+                homeIntent.putExtra("username", username);
+                startActivity(homeIntent);
                 return true;
             } else if (id == R.id.nav_journal) {
-                startActivity(new Intent(moodList.this, journalLists.class));
+                //startActivity(new Intent(HomeActivity.this, journalLists.class));
+                Intent journalIntent = new Intent(moodList.this, journalLists.class);
+                journalIntent.putExtra("username", username);
+                startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
-                //startActivity(new Intent(moodList.this, moodList.class));
+                //startActivity(new Intent(HomeActivity.this, moodList.class));
+                //Intent moodIntent = new Intent(moodList.this, moodList.class);
+                //moodIntent.putExtra("username", username);
+                //startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                startActivity(new Intent(moodList.this, lifeLatelyList.class));
+                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
+                Intent lifestyleIntent = new Intent(moodList.this, lifeLatelyList.class);
+                lifestyleIntent.putExtra("username", username);
+                startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(moodList.this, ProfileActivity.class));
+                Intent profileIntent = new Intent(moodList.this, ProfileActivity.class);
+                profileIntent.putExtra("username", username);
+                startActivity(profileIntent);
                 return true;
             }
             return false;
