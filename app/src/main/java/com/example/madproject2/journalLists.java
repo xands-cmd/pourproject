@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -20,12 +19,10 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class journalLists extends AppCompatActivity {
@@ -34,9 +31,10 @@ public class journalLists extends AppCompatActivity {
     Button addJournal;
     LinearLayout journalEntries;
 
-    Button switcah;
+    HashMap<String, Object> userData;
+    ArrayList<JournalEntry> journalList;
+    String username = "";
 
-    // constants
     int dpDesc = 150;
     int moodDP = 70;
     int marginTB = 15;
@@ -46,24 +44,17 @@ public class journalLists extends AppCompatActivity {
     int journalCounter = 1;
 
     ActivityResultLauncher<Intent> journalFormLauncher;
-    HashMap<String, Object> userData;
-    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.journalEntries), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        Intent intent = getIntent();
-        username = intent.getStringExtra("username");
+        username = getIntent().getStringExtra("username");
         userData = UserDatabase.getUser(username);
-        //Toast.makeText(this, "Test:" + username, Toast.LENGTH_SHORT).show();
+
+        journalList = (ArrayList<JournalEntry>) userData.get("journals");
 
         journalEntries = findViewById(R.id.journalEntries);
         addJournal = findViewById(R.id.addJournal);
@@ -73,112 +64,98 @@ public class journalLists extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            Intent data = result.getData();
-                            String action = data.getStringExtra("action");
 
-                            if ("delete".equals(action)) {
-                                int id = data.getIntExtra("entryId", -1);
-                                View entry = findViewById(id);
-                                if (entry != null) {
-                                    journalEntries.removeView(entry);
-                                }
-                                return;
-                            }
+                        if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null)
+                            return;
 
-                            if ("edit".equals(action)) {
-                                Intent editIntent = new Intent(c, journalform.class);
-                                editIntent.putExtra("current1", data.getStringExtra("title"));
-                                editIntent.putExtra("current2", data.getStringExtra("feel"));
-                                editIntent.putExtra("moodChange", data.getIntExtra("mood", R.drawable.dizzy));
-                                editIntent.putExtra("entryId", data.getIntExtra("entryId", -1)); // ✅ add this
-                                journalFormLauncher.launch(editIntent);
-                                return;
-                            }
+                        Intent data = result.getData();
+                        String action = data.getStringExtra("action");
+                        int entryId = data.getIntExtra("entryId", -1);
 
-                            String title = data.getStringExtra("journalTitle");
-                            String feel = data.getStringExtra("journalFeel");
-                            int mood = data.getIntExtra("journalMood", R.drawable.dizzy);
-                            int entryId = data.getIntExtra("entryId", -1);
-
-                            if (entryId != -1) {
-                                View v = findViewById(entryId);
-                                if (v instanceof LinearLayout) {
-                                    LinearLayout container = (LinearLayout) v;
-                                    LinearLayout journalDesc = (LinearLayout) container.getChildAt(2);
-                                    TextView titleList = (TextView) journalDesc.getChildAt(0);
-                                    TextView feelList = (TextView) journalDesc.getChildAt(1);
-                                    ImageView moodList = (ImageView) container.getChildAt(4);
-                                    titleList.setText(title);
-                                    feelList.setText(feel);
-                                    moodList.setImageResource(mood);
-                                }
-                            } else {
-                                addJournalEntry(title, feel, mood);
-                            }
+                        if ("delete".equals(action)) {
+                            deleteJournal(entryId);
+                            return;
                         }
 
+                        if ("edit".equals(action)) {
+                            Intent editIntent = new Intent(c, journalform.class);
+                            editIntent.putExtra("current1", data.getStringExtra("title"));
+                            editIntent.putExtra("current2", data.getStringExtra("feel"));
+                            editIntent.putExtra("moodChange", data.getIntExtra("mood", R.drawable.dizzy));
+                            editIntent.putExtra("entryId", entryId);
+                            journalFormLauncher.launch(editIntent);
+                            return;
+                        }
+
+                        String title = data.getStringExtra("journalTitle");
+                        String feel = data.getStringExtra("journalFeel");
+                        int mood = data.getIntExtra("journalMood", R.drawable.dizzy);
+
+                        if (entryId != -1) {
+                            updateJournal(entryId, title, feel, mood);
+                        }
+                        else {
+                            addNewJournal(title, feel, mood);
+                        }
                     }
                 }
         );
 
-        addJournal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addJournalIntent = new Intent(c, journalform.class);
-                journalFormLauncher.launch(addJournalIntent);
-            }
+
+        addJournal.setOnClickListener(v -> {
+            Intent addJournalIntent = new Intent(c, journalform.class);
+            journalFormLauncher.launch(addJournalIntent);
         });
 
-        //switcah = findViewById(R.id.switcah);
-
-//        switcah.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent switching = new Intent (c, lifeLatelyList.class);
-//                startActivity(switching);
-//            }
-//        });
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_home) {
-                //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-                Intent homeIntent = new Intent(journalLists.this, HomeActivity.class);
-                homeIntent.putExtra("username", username);
-                startActivity(homeIntent);
-                return true;
-            } else if (id == R.id.nav_journal) {
-                //startActivity(new Intent(HomeActivity.this, journalLists.class));
-                //Intent journalIntent = new Intent(journalLists.this, journalLists.class);
-                //journalIntent.putExtra("username", username);
-                //startActivity(journalIntent);
-                return true;
-            } else if (id == R.id.nav_mood) {
-                //startActivity(new Intent(HomeActivity.this, moodList.class));
-                Intent moodIntent = new Intent(journalLists.this, moodList.class);
-                moodIntent.putExtra("username", username);
-                startActivity(moodIntent);
-                return true;
-            } else if (id == R.id.nav_lifestyle) {
-                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
-                Intent lifestyleIntent = new Intent(journalLists.this, lifeLatelyList.class);
-                lifestyleIntent.putExtra("username", username);
-                startActivity(lifestyleIntent);
-                return true;
-            } else if (id == R.id.nav_profile) {
-                Intent profileIntent = new Intent(journalLists.this, ProfileActivity.class);
-                profileIntent.putExtra("username", username);
-                startActivity(profileIntent);
-                return true;
-            }
-            return false;
-        });
+        loadSavedJournals();
+        setupBottomNav();
     }
 
-    private void addJournalEntry(String title, String feel, int mood) {
+    //load ung mga existing journals
+    private void loadSavedJournals() {
+        journalEntries.removeAllViews();
+        journalCounter = 1;
+
+        for (JournalEntry j : journalList) {
+            addJournalEntry(j);
+            journalCounter++;
+        }
+    }
+
+    private void addNewJournal(String title, String feel, int mood) {
+        int id = View.generateViewId();
+        JournalEntry entry = new JournalEntry(title, feel, mood, id);
+
+        journalList.add(entry);
+        UserDatabase.updateUser(username, userData);
+
+        addJournalEntry(entry);
+        journalCounter++;
+    }
+
+    private void updateJournal(int entryId, String title, String feel, int mood) {
+
+        for (JournalEntry j : journalList) {
+            if (j.entryId == entryId) {
+                j.title = title;
+                j.feel = feel;
+                j.mood = mood;
+                break;
+            }
+        }
+        UserDatabase.updateUser(username, userData);
+        loadSavedJournals();
+    }
+
+    private void deleteJournal(int entryId) {
+        journalList.removeIf(j -> j.entryId == entryId);
+        UserDatabase.updateUser(username, userData);
+        loadSavedJournals();
+    }
+
+    private void addJournalEntry(JournalEntry entry) {
         float scale = getResources().getDisplayMetrics().density;
+
         int pixelValue = (int) (dpDesc * scale + 0.5f);
         int moodPixel = (int) (moodDP * scale + 0.5f);
         int margin15 = (int) (marginTB * scale + 0.5f);
@@ -186,21 +163,19 @@ public class journalLists extends AppCompatActivity {
         int number10 = (int) (numberM * scale + 0.5f);
 
         LinearLayout containerList = new LinearLayout(c);
-        containerList.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
         containerList.setOrientation(LinearLayout.HORIZONTAL);
         containerList.setPadding(75, 75, 75, 75);
-        LinearLayout.LayoutParams parentMargin = (LinearLayout.LayoutParams) containerList.getLayoutParams();
+        containerList.setGravity(Gravity.CENTER_VERTICAL);
+
+        LinearLayout.LayoutParams parentMargin = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
         parentMargin.setMargins(margin30, margin15, margin30, margin15);
         containerList.setLayoutParams(parentMargin);
-        containerList.setGravity(Gravity.CENTER_VERTICAL);
+
         containerList.setBackgroundResource(R.drawable.round);
-
-
-        int entryId = View.generateViewId();
-        containerList.setId(entryId);
+        containerList.setId(entry.entryId);
 
         TextView numberList = new TextView(c);
         numberList.setText(String.valueOf(journalCounter));
@@ -210,32 +185,29 @@ public class journalLists extends AppCompatActivity {
         numberList.setTextColor(Color.parseColor("#8D815C"));
         numberList.setGravity(Gravity.CENTER);
 
-
         View leftLine = new View(c);
         LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
         dividerParams.setMargins(number10, 0, number10, 0);
         leftLine.setLayoutParams(dividerParams);
         leftLine.setBackgroundColor(Color.parseColor("#717C68"));
 
-
         LinearLayout journalDesc = new LinearLayout(c);
         journalDesc.setOrientation(LinearLayout.VERTICAL);
         journalDesc.setLayoutParams(new LinearLayout.LayoutParams(pixelValue, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         TextView titleList = new TextView(c);
-        titleList.setText(title);
+        titleList.setText(entry.title);
         titleList.setTextSize(20);
         titleList.setTextColor(Color.parseColor("#8D815C"));
         titleList.setTypeface(null, Typeface.BOLD);
 
         TextView feelList = new TextView(c);
-        feelList.setText(feel);
+        feelList.setText(entry.feel);
         feelList.setTextSize(15);
         feelList.setTextColor(Color.parseColor("#8D815C"));
 
         journalDesc.addView(titleList);
         journalDesc.addView(feelList);
-
 
         View rightLine = new View(c);
         LinearLayout.LayoutParams dividerParams2 = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -243,18 +215,12 @@ public class journalLists extends AppCompatActivity {
         rightLine.setLayoutParams(dividerParams2);
         rightLine.setBackgroundColor(Color.parseColor("#717C68"));
 
-
         ImageView moodList = new ImageView(c);
         LinearLayout.LayoutParams moodParams = new LinearLayout.LayoutParams(moodPixel, moodPixel);
         moodParams.setMargins(number10, 0, 0, 0);
         moodParams.gravity = Gravity.CENTER_VERTICAL;
         moodList.setLayoutParams(moodParams);
-        if (mood != 0) {
-            moodList.setImageResource(mood);
-        } else {
-            moodList.setImageResource(R.drawable.dizzy);
-        }
-
+        moodList.setImageResource(entry.mood);
 
         containerList.addView(numberList);
         containerList.addView(leftLine);
@@ -264,15 +230,40 @@ public class journalLists extends AppCompatActivity {
 
         containerList.setOnClickListener(v -> {
             Intent viewJournal = new Intent(c, individualJournal.class);
-            viewJournal.putExtra("entryId", entryId);
-            viewJournal.putExtra("title", title);
-            viewJournal.putExtra("feel", feel);
-            viewJournal.putExtra("mood", mood);
+            viewJournal.putExtra("entryId", entry.entryId);
+            viewJournal.putExtra("title", entry.title);
+            viewJournal.putExtra("feel", entry.feel);
+            viewJournal.putExtra("mood", entry.mood);
             journalFormLauncher.launch(viewJournal);
         });
 
-
         journalEntries.addView(containerList);
-        journalCounter++;
+    }
+
+    private void setupBottomNav() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            Intent navIntent = null;
+
+            if (item.getItemId() == R.id.nav_home)
+                navIntent = new Intent(this, HomeActivity.class);
+            else if (item.getItemId() == R.id.nav_mood)
+                navIntent = new Intent(this, moodList.class);
+            else if (item.getItemId() == R.id.nav_lifestyle)
+                navIntent = new Intent(this, lifeLatelyList.class);
+            else if (item.getItemId() == R.id.nav_profile)
+                navIntent = new Intent(this, ProfileActivity.class);
+            else if (item.getItemId() == R.id.nav_journal)
+                return true;
+
+            if (navIntent != null) {
+                navIntent.putExtra("username", username);
+                startActivity(navIntent);
+                return true;
+            }
+
+            return false;
+        });
     }
 }

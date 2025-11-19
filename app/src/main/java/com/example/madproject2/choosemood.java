@@ -85,6 +85,7 @@ public class choosemood extends AppCompatActivity {
         kiss.setOnClickListener(v -> setMood(R.drawable.kiss, "Getting all smoochy, I see", R.color.pink));
     }
 
+    //function para sa listener nung bawat emoji
     private void setMood(int drawable, String text, int colorRes) {
         mainMood.setBackground(getResources().getDrawable(drawable));
         moodText.setText(text);

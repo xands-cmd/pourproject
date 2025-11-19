@@ -33,7 +33,7 @@
             android:id="@+id/moodText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I'm feeling scared..."
+            android:text="I'm here don't be scared"
             android:textColor="@color/purple"
             android:gravity="center"
             android:layout_marginBottom="10dp"

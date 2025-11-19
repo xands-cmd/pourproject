@@ -264,7 +264,6 @@
                 android:id="@+id/registerBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/yellow"
                 android:fontFamily="@font/open_sauce_one_regular"
                 android:padding="10dp"
                 android:text="REGISTER"

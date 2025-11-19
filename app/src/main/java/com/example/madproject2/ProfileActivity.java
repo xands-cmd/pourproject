@@ -43,7 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
     final int REQUEST_CODE  = 1;
     final int REQUEST_CODE_CAM  = 2;
     HashMap<String, Object> userData;
-    String username, fName, lName, gender, dob, bio;
+    String username, fName, lName, gender, dob, bio, email, password;
+    EditText emailET, passwordET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,12 @@ public class ProfileActivity extends AppCompatActivity {
         bioET = findViewById(R.id.bio);
         registerBtn = findViewById(R.id.registerBtn);
         saveBtn = findViewById(R.id.saveBtn);
-        redirectBtn = findViewById(R.id.redirectBtn);
         //profileImg = findViewById(R.id.profileImg);
         profileImage = findViewById(R.id.profileImage);
+
+        emailET = findViewById(R.id.email);
+        passwordET = findViewById(R.id.password);
+
 
         //tester buttons
         testerBtn1 = findViewById(R.id.testerBtn1);
@@ -93,6 +97,9 @@ public class ProfileActivity extends AppCompatActivity {
         lName = (String) userData.get("lastName");
         gender = (String) userData.get("gender");
         dob = (String) userData.get("dob");
+        bio = (String) userData.get("bio");
+        email = (String) userData.get("email");
+        password = (String) userData.get("password");
 
         Bitmap savedImage = (Bitmap) userData.get("profileImage");
         if (savedImage != null) {
@@ -106,6 +113,8 @@ public class ProfileActivity extends AppCompatActivity {
         if (lName != null) lNameET.setText(lName);
         if (dob != null) pickDateButton.setText(dob);
         if (bio != null) bioET.setText(bio);
+        if (email != null) emailET.setText(email);
+        if (password != null) passwordET.setText(password);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -128,11 +137,17 @@ public class ProfileActivity extends AppCompatActivity {
 
         saveBtn.setOnClickListener(v -> updateProfile());
 
-        redirectBtn.setOnClickListener(v -> {
-            Intent intent1 = new Intent(c, ProfileTester.class);
-            intent1.putExtra("username", username);
-            startActivity(intent1);
+        Button logOutBtn = findViewById(R.id.logOut);
+
+        logOutBtn.setOnClickListener(v -> {
+
+            Intent loggingOut = new Intent(ProfileActivity.this, LoginActivity.class);
+            loggingOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loggingOut);
+
+            finish();
         });
+
 
         //Kylee
         testerBtn1.setOnClickListener(v -> {
@@ -232,8 +247,10 @@ public class ProfileActivity extends AppCompatActivity {
         String dob = pickDateButton.getText().toString().trim();
         String gender = genderSpinner.getSelectedItem().toString();
         String bio = bioET.getText().toString().trim();
+        String email = emailET.getText().toString().trim();
+        String password = passwordET.getText().toString().trim();
 
-        // Empty Fields Checker
+        // Validation
         if (fName.isEmpty()) {
             Toast.makeText(c, "First name is required.", Toast.LENGTH_SHORT).show();
             return;
@@ -247,26 +264,42 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if (fName.length() < 2) {
-            Toast.makeText(c, "First name must be at least 2 characters long.", Toast.LENGTH_SHORT).show();
+        if (fName.length() < 2 || !fName.matches("[a-zA-Z ]+")) {
+            Toast.makeText(c, "Invalid first name.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!fName.matches("[a-zA-Z ]+")) { // note the space after Z
-            Toast.makeText(c, "First name must contain only letters and spaces.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (lName.length() < 2) {
-            Toast.makeText(c, "Last name must be at least 2 characters long.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!lName.matches("[a-zA-Z ]+")) {
-            Toast.makeText(c, "Last name must contain only letters.", Toast.LENGTH_SHORT).show();
+        if (lName.length() < 2 || !lName.matches("[a-zA-Z ]+")) {
+            Toast.makeText(c, "Invalid last name.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!isValidDOB(dob)) {
-            Toast.makeText(c, "Please select a valid date of birth (not in the future).", Toast.LENGTH_SHORT).show();
+            Toast.makeText(c, "Please select a valid date of birth.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(c, "Please enter a valid email address.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            Toast.makeText(c, "Password is required.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (password.length() < 8) {
+            Toast.makeText(c, "Password must be at least 8 characters long.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.matches(".*[A-Za-z].*")) {
+            Toast.makeText(c, "Password must contain at least one letter.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.matches(".*[0-9].*")) {
+            Toast.makeText(c, "Password must contain at least one number.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -277,12 +310,18 @@ public class ProfileActivity extends AppCompatActivity {
         userData.put("gender", gender);
         userData.put("bio", bio);
 
+        userData.put("email", email);
+        userData.put("password", password);
+
         if (tempProfileImage != null) {
             userData.put("profileImage", tempProfileImage);
         }
 
+        UserDatabase.updateUser(username, userData);
+
         Toast.makeText(c, "Profile updated successfully", Toast.LENGTH_SHORT).show();
     }
+
 
     private boolean isValidDOB(String dob) {
         try {
@@ -306,7 +345,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    //
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_CODE_CAM && resultCode==RESULT_OK ){

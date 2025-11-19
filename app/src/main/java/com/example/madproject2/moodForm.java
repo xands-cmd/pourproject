@@ -20,7 +20,6 @@ public class moodForm extends AppCompatActivity {
     ImageView returnForm;
     TextView moodText;
     Button submitMood;
-
     Context c = this;
 
     int imageMood;
@@ -61,7 +60,6 @@ public class moodForm extends AppCompatActivity {
 
         });
 
-
         happy.setOnClickListener(v -> setMood(R.drawable.happy, "Happy, happy, and happy!", R.color.yellow));
         sad.setOnClickListener(v -> setMood(R.drawable.sad, "Not your day, huh?!", R.color.blue));
         dizzy.setOnClickListener(v -> setMood(R.drawable.dizzy, "I need some milk...", R.color.orange));
@@ -69,6 +67,8 @@ public class moodForm extends AppCompatActivity {
         angry.setOnClickListener(v -> setMood(R.drawable.angry, "You probably need a rage room, not a journal", R.color.red));
         scared.setOnClickListener(v -> setMood(R.drawable.scared, "I'm here, don't be scared", R.color.purple));
         kiss.setOnClickListener(v -> setMood(R.drawable.kiss, "Getting all smoochy, I see", R.color.pink));
+
+        returnForm.setOnClickListener(v -> finish());
     }
 
     private void setMood(int drawable, String text, int colorRes) {

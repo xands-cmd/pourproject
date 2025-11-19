@@ -6,12 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,7 +31,6 @@ public class lifeLatelyList extends AppCompatActivity {
 
     Context c = this;
     Button lifeEntry;
-    //ScrollView lifeContainer;
     LinearLayout lifeStyleMain;
 
     int small = 30;
@@ -40,6 +38,8 @@ public class lifeLatelyList extends AppCompatActivity {
     ActivityResultLauncher<Intent> lifeFormLauncher;
     HashMap<String, Object> userData;
     String username = "";
+
+    ArrayList<LifeEntry> lifeEntries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,18 @@ public class lifeLatelyList extends AppCompatActivity {
             return insets;
         });
 
+
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
         userData = UserDatabase.getUser(username);
-        //Toast.makeText(this, "Test:" + username, Toast.LENGTH_SHORT).show();
+
+
+        lifeEntries = (ArrayList<LifeEntry>) userData.get("life");
+
+        lifeStyleMain = findViewById(R.id.lifeStyleMain);
+
+
+        loadSavedEntries();
 
         lifeFormLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -68,38 +76,33 @@ public class lifeLatelyList extends AppCompatActivity {
                         ArrayList<Integer> cbIcons = getLife.getIntegerArrayListExtra("cbIcons");
                         String noteLife = getLife.getStringExtra("lifeNote");
 
-                        addLately(cbIcons, noteLife);
+                        // Add new entry
+                        addLifeEntry(cbIcons, noteLife, true);
                     }
                 }
         );
-        addLife();
+
+        addLifeButton();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
-                //startActivity(new Intent(HomeActivity.this, HomeActivity.class));
                 Intent homeIntent = new Intent(lifeLatelyList.this, HomeActivity.class);
                 homeIntent.putExtra("username", username);
                 startActivity(homeIntent);
                 return true;
             } else if (id == R.id.nav_journal) {
-                //startActivity(new Intent(HomeActivity.this, journalLists.class));
                 Intent journalIntent = new Intent(lifeLatelyList.this, journalLists.class);
                 journalIntent.putExtra("username", username);
                 startActivity(journalIntent);
                 return true;
             } else if (id == R.id.nav_mood) {
-                //startActivity(new Intent(HomeActivity.this, moodList.class));
                 Intent moodIntent = new Intent(lifeLatelyList.this, moodList.class);
                 moodIntent.putExtra("username", username);
                 startActivity(moodIntent);
                 return true;
             } else if (id == R.id.nav_lifestyle) {
-                //startActivity(new Intent(HomeActivity.this, lifeLatelyList.class));
-                //Intent lifestyleIntent = new Intent(lifeLatelyList.this, lifeLatelyList.class);
-                //lifestyleIntent.putExtra("username", username);
-                //startActivity(lifestyleIntent);
                 return true;
             } else if (id == R.id.nav_profile) {
                 Intent profileIntent = new Intent(lifeLatelyList.this, ProfileActivity.class);
@@ -111,7 +114,7 @@ public class lifeLatelyList extends AppCompatActivity {
         });
     }
 
-    private void addLife() {
+    private void addLifeButton() {
         lifeEntry = findViewById(R.id.lifeEntry);
         lifeEntry.setOnClickListener(v -> {
             Intent addLifeStyle = new Intent(c, lifelatelyForm.class);
@@ -119,67 +122,108 @@ public class lifeLatelyList extends AppCompatActivity {
         });
     }
 
-    private void addLately(ArrayList<Integer> icon, String note) {
+
+    private void addLifeEntry(ArrayList<Integer> icons, String note, boolean saveToDB) {
+
+
+        Date current = new Date();
+        SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFmt = new SimpleDateFormat("hh:mm a");
+
+        String date = dateFmt.format(current);
+        String time = timeFmt.format(current);
+
+        LifeEntry entry = new LifeEntry(icons, note, date, time);
+
+        if (saveToDB) {
+            lifeEntries.add(entry);
+            userData.put("life", lifeEntries);
+            UserDatabase.updateUser(username, userData);
+        }
+
+
+        createLifeLayout(entry);
+    }
+
+    private void loadSavedEntries() {
+        lifeStyleMain.removeAllViews();
+        for (LifeEntry entry : lifeEntries) {
+            createLifeLayout(entry);
+        }
+    }
+
+
+    private void createLifeLayout(LifeEntry entry) {
+
         float scale = getResources().getDisplayMetrics().density;
         int size20 = (int) (small * scale + 0.5f);
-        //lifeContainer = findViewById(R.id.lifeContainer);
-        lifeStyleMain = findViewById(R.id.lifeStyleMain);
+
 
         LinearLayout timeDate = new LinearLayout(c);
         timeDate.setOrientation(LinearLayout.HORIZONTAL);
         timeDate.setGravity(Gravity.CENTER);
-        timeDate.setPadding(0,0,0,20);
-
-        Date current = new Date();
-
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
-
-        String date = currentDate.format(current);
-        String time = currentTime.format(current);
-
+        timeDate.setPadding(0, 0, 0, 20);
 
         TextView spaceBoth = new TextView(c);
-        spaceBoth.setText(date + "     " + time);
+        spaceBoth.setText(entry.date + "     " + entry.time);
         spaceBoth.setTextSize(20);
 
         timeDate.addView(spaceBoth);
-
         lifeStyleMain.addView(timeDate);
 
         LinearLayout cbIcon = new LinearLayout(c);
         cbIcon.setOrientation(LinearLayout.HORIZONTAL);
         cbIcon.setGravity(Gravity.CENTER);
-        cbIcon.setPadding(0,0,0,20);
+        cbIcon.setPadding(0, 0, 0, 20);
 
-        if( icon != null) {
-            for (int iconEach : icon) {
+        if (entry.icons != null) {
+            for (int iconEach : entry.icons) {
                 ImageView img = new ImageView(c);
                 img.setImageResource(iconEach);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size20,size20);
-                params.setMargins(5,5,5,5);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size20, size20);
+                params.setMargins(5, 5, 5, 5);
                 img.setLayoutParams(params);
                 cbIcon.addView(img);
             }
         }
+
         lifeStyleMain.addView(cbIcon);
 
         TextView life = new TextView(c);
-        life.setText(note);
+        life.setText(entry.note);
         life.setTextSize(15);
-        life.setPadding(0,0,0,20);
+        life.setPadding(0, 0, 0, 10);
         life.setGravity(Gravity.CENTER);
 
         lifeStyleMain.addView(life);
 
+        Button deleteBtn = new Button(c);
+        LinearLayout.LayoutParams deleteParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        deleteBtn.setLayoutParams(deleteParams);
+        deleteBtn.setText("Delete");
+        deleteBtn.setGravity(Gravity.CENTER);
+        deleteBtn.setBackgroundColor(Color.parseColor("#AA3333"));
+        deleteBtn.setTextColor(Color.WHITE);
+
+        deleteBtn.setOnClickListener(v -> {
+            lifeEntries.remove(entry);
+            userData.put("life", lifeEntries);
+            UserDatabase.updateUser(username, userData);
+            loadSavedEntries();
+        });
+
+        lifeStyleMain.addView(deleteBtn);
+
         View bottomLine = new View(c);
-        LinearLayout.LayoutParams dividerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
-        dividerParams.setMargins(0,30,0,30);
+        LinearLayout.LayoutParams dividerParams =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 2);
+        dividerParams.setMargins(0, 30, 0, 30);
         bottomLine.setLayoutParams(dividerParams);
         bottomLine.setBackgroundColor(Color.parseColor("#6C6E1F"));
+
         lifeStyleMain.addView(bottomLine);
-
-
     }
-
 }

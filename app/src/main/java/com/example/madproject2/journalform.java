@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -48,7 +49,6 @@ public class journalform extends AppCompatActivity {
                             getMood = data.getIntExtra("moodChange", R.drawable.dizzy);
                             moodPicker.setImageResource(getMood);
 
-                            // update title and feel in case they were changed
                             if (data.hasExtra("current1")) {
                                 titleJournal.setText(data.getStringExtra("current1"));
                             }
@@ -99,17 +99,30 @@ public class journalform extends AppCompatActivity {
             String title = titleJournal.getText().toString();
             String feel = feelJournal.getText().toString();
 
-            Intent passJournal = new Intent();
-            passJournal.putExtra("journalTitle", title);
-            passJournal.putExtra("journalFeel", feel);
-            passJournal.putExtra("journalMood", getMood);
+            if (title.isEmpty() || feel.isEmpty()) {
+                AlertDialog.Builder empty = new AlertDialog.Builder(c);
+                empty.setTitle("Error");
+                empty.setMessage("Please fill in both title and how you feel.");
+                empty.setCancelable(true);
+                empty.setPositiveButton("Okay", null);
+
+                AlertDialog emptyShow = empty.create();
+                emptyShow.show();
+                return;
+            }
+            else {
+                Intent passJournal = new Intent();
+                passJournal.putExtra("journalTitle", title);
+                passJournal.putExtra("journalFeel", feel);
+                passJournal.putExtra("journalMood", getMood);
 
 
-            int entryId = getIntent().getIntExtra("entryId", -1);
-            passJournal.putExtra("entryId", entryId);
+                int entryId = getIntent().getIntExtra("entryId", -1);
+                passJournal.putExtra("entryId", entryId);
 
-            setResult(Activity.RESULT_OK, passJournal);
-            finish();
+                setResult(Activity.RESULT_OK, passJournal);
+                finish();
+            }
         });
 
         returnJournalEntry.setOnClickListener(v -> finish());

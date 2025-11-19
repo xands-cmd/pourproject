@@ -91,6 +91,7 @@
                 android:layout_height="4dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:layout_marginBottom="25dp"
                 android:background="@drawable/line" />
 
             <TextView
@@ -205,17 +206,17 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnStreak"
-                android:layout_width="300dp"
-                android:layout_height="60dp"
+            <TextView
+                android:id="@+id/journalStreak"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="Streak 0"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:background="@drawable/button"
-                android:text="Streak  10"
-                android:textColor="#8D815C"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:padding="10dp"
+                android:layout_marginTop="15dp"
+                android:textSize="20dp"/>
 
             <TextView
                 android:id="@+id/tvFooter"
